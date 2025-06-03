@@ -5,8 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-diagram/
-prototype/
+.env
 
 ### STS ###
 .apt_generated
