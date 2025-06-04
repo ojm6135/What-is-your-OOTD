@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -33,7 +34,7 @@ public class ClothesServiceImpl implements ClothesService {
         }
 
         if (clothingItemDto.getType() == null
-                    || clothingItemDto.getDetail() == null
+                || clothingItemDto.getDetail() == null
                 || clothingItemDto.getColor() == null) {
             return false;
         }
@@ -57,5 +58,25 @@ public class ClothesServiceImpl implements ClothesService {
                 .stream()
                 .map(ClothingItemDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @PreAuthorize("#username == authentication.name")
+    @Override
+    public boolean deleteClothingItem(@P("username") String username, Long itemId) {
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = principal.getUserId();
+        Optional<ClothingItem> itemOptional = clothesRepository.findById(itemId);
+
+        if (itemOptional.isEmpty()) {
+            return false;
+        }
+
+        if (!itemOptional.get()
+                .getUserId().equals(userId)) {
+            return false;
+        }
+
+        clothesRepository.deleteById(itemId);
+        return true;
     }
 }

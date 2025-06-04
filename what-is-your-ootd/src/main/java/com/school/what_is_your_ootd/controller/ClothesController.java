@@ -36,4 +36,11 @@ public class ClothesController {
         model.addAttribute("itemTypes", ClothesType.values());
         return "my-clothes";
     }
+
+    @DeleteMapping("/{itemId}")
+    public String deleteClothingItem(@PathVariable(name = "username") String username,
+                                     @PathVariable(name = "itemId") Long itemId) {
+        clothesService.deleteClothingItem(username, itemId);
+        return "redirect:/users/" + username + "/clothes";
+    }
 }

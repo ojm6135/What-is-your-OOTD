@@ -7,4 +7,5 @@ import java.util.List;
 public interface ClothesService {
     boolean addClothingItem(String username, ClothingItemDto clothingItemDto);
     List<ClothingItemDto> findAllByUsername(String username);
+    boolean deleteClothingItem(String username, Long itemId);
 }

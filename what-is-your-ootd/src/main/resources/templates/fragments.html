@@ -77,7 +77,8 @@
         <span th:if="${item.forWinter == true}">겨울</span>
       </td>
       <td>
-        <form action="#" class="m-0">
+        <form th:action="@{/users/{username}/clothes/{itemId}(username=${#authentication.name}, itemId=${item.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');" class="m-0">
+          <input type="hidden" name="_method" value="delete">
           <button type="submit" class="btn p-0">
             <img th:src="@{/images/delete.svg}" width="25px" height="25px">
           </button>
