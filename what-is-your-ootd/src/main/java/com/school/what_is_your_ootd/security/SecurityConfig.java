@@ -1,4 +1,4 @@
-package com.school.what_is_your_ootd.config;
+package com.school.what_is_your_ootd.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +20,20 @@ public class SecurityConfig {
                         .requestMatchers("/users/sign-up").permitAll()
                         .requestMatchers("/images/**").permitAll()
                         .anyRequest().authenticated()
+                );
+
+        http
+                .formLogin((auth) -> auth
+                        .loginPage("/users/login")
+                        .loginProcessingUrl("/users/login")
+                        .defaultSuccessUrl("/")
+                        .permitAll()
+                );
+
+        http
+                .logout((logout) -> logout
+                        .logoutUrl("/users/logout")
+                        .logoutSuccessUrl("/")
                 );
 
         http

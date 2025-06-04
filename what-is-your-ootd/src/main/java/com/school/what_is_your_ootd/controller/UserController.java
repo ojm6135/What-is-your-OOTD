@@ -33,6 +33,11 @@ public class UserController {
             return "redirect:/users/signup";
         }
 
-        return "redirect:/";
+        return "redirect:/users/login";
+    }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
     }
 }

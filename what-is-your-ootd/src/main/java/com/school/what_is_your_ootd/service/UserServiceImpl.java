@@ -3,7 +3,10 @@ package com.school.what_is_your_ootd.service;
 import com.school.what_is_your_ootd.domain.User;
 import com.school.what_is_your_ootd.form.UserRegistrationForm;
 import com.school.what_is_your_ootd.repository.UserRepository;
+import com.school.what_is_your_ootd.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,5 +46,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user)
                 .getUsername()
                 .equals(user.getUsername());
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username).orElseThrow();
+        return new CustomUserDetails(user);
     }
 }

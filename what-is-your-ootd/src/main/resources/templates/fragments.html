@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -26,8 +26,14 @@
               <a class="nav-link" href="#"><b>내 옷차림</b></a>
           </div>
           <div class="navbar-nav">
-              <a class="nav-link" href="/users/sign-up"><b>회원가입</b></a>
-              <a class="nav-link" href="#"><b>로그인</b></a>
+            <th:block sec:authorize="isAnonymous()">
+              <a class="nav-link" href="/users/sign-up">회원가입</a>
+              <a class="nav-link" href="/users/login">로그인</a>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+              <a href="#" class="nav-link">내 정보</a>
+              <a class="nav-link" href="/users/logout">로그아웃</a>
+            </th:block>
           </div>
         </div>
       </div>

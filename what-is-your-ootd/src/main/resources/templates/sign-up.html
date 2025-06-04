@@ -12,7 +12,7 @@
 
 <div class="container mt-3">
     <a href="/">
-        <img th:src="@{/images/logo.png}" width="100px" height="90px">
+        <img th:src="@{/images/logo.png}" width="100px" height="80px">
     </a>
     <div class="card shadow-sm p-4 mx-auto" style="max-width: 400px;">
         <form action="/users/sign-up" method="post" th:object="${form}">
@@ -50,7 +50,7 @@
             </div>
             <input type="submit" class="btn btn-primary w-100" value="회원가입">
         </form>
-        <a href="#" class="mx-auto">로그인</a>
+        <a href="/users/login" class="mx-auto">로그인</a>
     </div>
 </div>
 
