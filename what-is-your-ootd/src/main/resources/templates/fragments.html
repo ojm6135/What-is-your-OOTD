@@ -31,7 +31,7 @@
               <a class="nav-link" href="/users/login">로그인</a>
             </th:block>
             <th:block sec:authorize="isAuthenticated()">
-              <a href="#" class="nav-link">내 정보</a>
+              <a th:href="@{/users/profile/{username}(username=${#authentication.name})}" class="nav-link">내 정보</a>
               <a class="nav-link" href="/users/logout">로그아웃</a>
             </th:block>
           </div>
