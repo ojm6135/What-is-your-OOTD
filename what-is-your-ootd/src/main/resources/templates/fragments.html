@@ -22,17 +22,23 @@
         <div class="d-flex w-100 justify-content-center">
           <div class="navbar-nav mx-auto">
             <a class="nav-link" href="#"><b>둘러보기</b></a>
-              <a class="nav-link" href="#"><b>내 옷장</b></a>
+            <th:block sec:authorize="isAnonymous()">
+              <a class="nav-link" href="/users/login"><b>내 옷장</b></a>
               <a class="nav-link" href="#"><b>내 옷차림</b></a>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+              <a class="nav-link" th:href="@{/users/{username}/clothes(username=${#authentication.name})}"><b>내 옷장</b></a>
+              <a class="nav-link" href="#"><b>내 옷차림</b></a>
+            </th:block>
           </div>
           <div class="navbar-nav">
             <th:block sec:authorize="isAnonymous()">
-              <a class="nav-link" href="/users/sign-up">회원가입</a>
-              <a class="nav-link" href="/users/login">로그인</a>
+              <a class="nav-link" href="/users/sign-up"><b>회원가입</b></a>
+              <a class="nav-link" href="/users/login"><b>로그인</b></a>
             </th:block>
             <th:block sec:authorize="isAuthenticated()">
-              <a th:href="@{/users/profile/{username}(username=${#authentication.name})}" class="nav-link">내 정보</a>
-              <a class="nav-link" href="/users/logout">로그아웃</a>
+              <a th:href="@{/users/profile/{username}(username=${#authentication.name})}" class="nav-link"><b>내 정보</b></a>
+              <a class="nav-link" href="/users/logout"><b>로그아웃</b></a>
             </th:block>
           </div>
         </div>
@@ -40,6 +46,47 @@
     </div>
   </nav>
 </header>
+
+
+<div th:fragment="item-table(type, items)" class="table-responsive border rounded shadow-sm">
+  <table class="table table-bordered m-0 text-center">
+    <caption class="caption-top text-center">
+            <span th:switch="${type.desc}">
+                <h5 th:case="외투"><b>🧥 외투</b></h5>
+                <h5 th:case="상의"><b>👕 상의</b></h5>
+                <h5 th:case="하의"><b>👖 하의</b></h5>
+                <h5 th:case="신발"><b>👞 신발</b></h5>
+            </span>
+    </caption>
+    <thead class="table-secondary">
+    <tr>
+      <th>종류</th>
+      <th>색</th>
+      <th>계절감</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${items}" th:if="${item.type == type}">
+      <td th:text="${item.detail}"></td>
+      <td th:text="${item.color}"></td>
+      <td>
+        <span th:if="${item.forSpring == true}">봄</span>
+        <span th:if="${item.forSummer == true}">여름</span>
+        <span th:if="${item.forFall == true}">가을</span>
+        <span th:if="${item.forWinter == true}">겨울</span>
+      </td>
+      <td>
+        <form action="#" class="m-0">
+          <button type="submit" class="btn p-0">
+            <img th:src="@{/images/delete.svg}" width="25px" height="25px">
+          </button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
