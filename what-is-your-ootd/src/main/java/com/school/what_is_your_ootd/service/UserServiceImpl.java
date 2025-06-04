@@ -28,11 +28,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean signUp(UserRegistrationForm form) {
         if (userRepository.existsByUsername(form.getUsername())) {
-            throw new NoSuchElementException();
+            return false;
         }
 
         if (userRepository.existsByEmail(form.getEmail())) {
-            throw new NoSuchElementException();
+            return false;
         }
 
         User user = new User(

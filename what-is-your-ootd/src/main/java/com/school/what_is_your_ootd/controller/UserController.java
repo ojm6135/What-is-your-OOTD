@@ -32,9 +32,8 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public String signup(@ModelAttribute UserRegistrationForm form) {
-        boolean result = userService.signUp(form);
-        if (!result) {
-            return "redirect:/users/signup";
+        if (!userService.signUp(form)) {
+            return "redirect:/users/sign-up";
         }
 
         return "redirect:/users/login";
