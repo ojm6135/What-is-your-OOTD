@@ -40,6 +40,15 @@ dependencies {
 	// dotenv
 	implementation 'io.github.cdimascio:java-dotenv:5.1.1'
 
+	// json
+	implementation 'org.json:json:20250517'
+
+	// apache POI
+	implementation 'org.apache.poi:poi-ooxml:5.4.1'
+
+	// openAI
+	implementation 'com.openai:openai-java:1.6.1'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'

@@ -62,6 +62,21 @@ public class ClothesServiceImpl implements ClothesService {
 
     @PreAuthorize("#username == authentication.name")
     @Override
+    public List<ClothingItemDto> findAllByUsernameAndSeason(@P("username") String username,
+                                                            boolean forSpring, boolean forSummer,
+                                                            boolean forFall, boolean forWinter) {
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = principal.getUserId();
+
+        return clothesRepository.findAllByUserIdAndSeason(
+                userId, forSpring, forSummer, forFall, forWinter
+        ).stream()
+                .map(ClothingItemDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @PreAuthorize("#username == authentication.name")
+    @Override
     public boolean deleteClothingItem(@P("username") String username, Long itemId) {
         CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         long userId = principal.getUserId();

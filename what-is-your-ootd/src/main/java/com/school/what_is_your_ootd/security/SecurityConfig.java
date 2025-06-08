@@ -20,6 +20,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/users/sign-up").permitAll()
+                        .requestMatchers("/outfits/recommend").permitAll()
                         .requestMatchers("/images/**").permitAll()
                         .anyRequest().authenticated()
                 );
