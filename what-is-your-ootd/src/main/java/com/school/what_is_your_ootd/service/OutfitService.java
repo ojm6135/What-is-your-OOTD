@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface OutfitService {
     Optional<OutfitDto> recommendOutfit(RecommendRequest request);
+    boolean save(String username, OutfitDto outfitDto);
 }

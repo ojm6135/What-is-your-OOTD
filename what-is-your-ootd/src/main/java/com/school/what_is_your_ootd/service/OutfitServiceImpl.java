@@ -1,5 +1,6 @@
 package com.school.what_is_your_ootd.service;
 
+import com.school.what_is_your_ootd.domain.Outfit;
 import com.school.what_is_your_ootd.dto.ClothingItemDto;
 import com.school.what_is_your_ootd.dto.OutfitDto;
 import com.school.what_is_your_ootd.dto.RecommendRequest;
@@ -10,9 +11,11 @@ import com.school.what_is_your_ootd.util.WeatherFetcher;
 import com.school.what_is_your_ootd.vo.Location;
 import com.school.what_is_your_ootd.vo.Weather;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -97,5 +100,16 @@ public class OutfitServiceImpl implements OutfitService {
         } catch (IOException | IllegalStateException e) {
             return Optional.empty();
         }
+    }
+
+    @PreAuthorize("#username == authentication.name")
+    @Override
+    public boolean save(@P("username") String username, OutfitDto outfitDto) {
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = principal.getUserId();
+        Outfit outfit = new Outfit(userId, outfitDto);
+        Outfit save = outfitRepository.save(outfit);
+
+        return save.getUserId().equals(userId);
     }
 }

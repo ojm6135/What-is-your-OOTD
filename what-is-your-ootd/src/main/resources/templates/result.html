@@ -4,11 +4,10 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>What's your OOTD?</title>
+    <title>오늘 뭐 입지?</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 </head>
 <body>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1b849c27a0957a1e9fd4eff92fc5ae18"></script>
 
 <div th:replace="~{fragments :: header}"></div>
 
@@ -42,15 +41,15 @@
             </th:block>
 
             <th:block sec:authorize="isAuthenticated()">
-                <form th:action="@{/users/{username}/outfits(username=${#authentication.name})}" method="post">
-                    <input hidden type="text" th:each="itemId : ${outfit.itemList}" th:value="${itemId}" name="itemList">
-                    <input hidden type="text" th:value="${outfit.weather.tmp}" name="tmp">
-                    <input hidden type="text" th:value="${outfit.weather.pcp}" name="pcp">
-                    <input hidden type="text" th:value="${outfit.weather.wsd}" name="wsd">
-                    <input hidden type="text" th:value="${outfit.weather.reh}" name="reh">
-                    <input hidden type="text" th:value="${outfit.style}" name="style">
+                <form id="save-form" th:action="@{/users/{username}/outfits(username=${#authentication.name})}" th:object="${outfit}" method="post" >
+                    <input type="hidden" th:each="items : ${outfit.clothes}" th:value="${items.id}" name="itemList">
+                    <input type="hidden" th:field="*{weather.tmp}">
+                    <input type="hidden" th:field="*{weather.pcp}">
+                    <input type="hidden" th:field="*{weather.wsd}">
+                    <input type="hidden" th:field="*{weather.reh}">
+                    <input type="hidden" th:field="*{style}">
                     <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-success" style="width:70%">저장</button>
+                        <input type="submit" class="btn btn-success" value="저장" style="width:70%">
                         <button type="button" onclick="location.href='/'" class="btn btn-secondary" style="width: 25%">재추천</button>
                     </div>
                 </form>
@@ -59,6 +58,57 @@
     </div>
 </div>
 
+<div class="d-flex justify-content-center mt-4">
+    <div id="result-alert-placeholder" class="w-25 text-center"></div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+<script>
+    // 실제 alert 창 표시 담당
+    const alertPlaceholder = document.getElementById("result-alert-placeholder");
+    const appendAlert = (message, type) => {
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = [
+        `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+        `   <div>${message}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>'
+      ].join('');
+
+      alertPlaceholder.append(wrapper);
+    }
+
+    var isSaved = false;
+
+    // 페이지 변경 없이 저장 성공 여부에 따른 alert 창 표시
+    document.getElementById("save-form").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        // 중복 저장 방지
+        if (isSaved) {
+            return;
+        }
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(isSuccess => {
+            if (isSuccess) {
+                appendAlert("내 옷차림에 저장되었습니다!", "success");
+                isSaved = true;
+            } else {
+                appendAlert("저장에 실패하였습니다.", "warning");
+            }
+        })
+        .catch(() => {
+            appendAlert("오류가 발생했습니다.", "danger");
+        });
+    });
+</script>
 </body>
 </html>

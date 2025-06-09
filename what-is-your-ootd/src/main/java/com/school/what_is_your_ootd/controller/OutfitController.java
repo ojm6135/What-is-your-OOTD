@@ -31,4 +31,11 @@ public class OutfitController {
         model.addAttribute("outfit", resultOptional.get());
         return "result";
     }
+
+    @PostMapping("/users/{username}/outfits")
+    @ResponseBody
+    public boolean saveOutfit(@PathVariable(name = "username") String username,
+                              @ModelAttribute OutfitDto outfitDto) {
+        return outfitService.save(username, outfitDto);
+    }
 }
