@@ -11,6 +11,8 @@ import com.school.what_is_your_ootd.util.WeatherFetcher;
 import com.school.what_is_your_ootd.vo.Location;
 import com.school.what_is_your_ootd.vo.Weather;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -111,5 +113,18 @@ public class OutfitServiceImpl implements OutfitService {
         Outfit save = outfitRepository.save(outfit);
 
         return save.getUserId().equals(userId);
+    }
+
+    @PreAuthorize("#username == authentication.name")
+    @Override
+    public Page<OutfitDto> findAllByUserId(@P("username") String username, Pageable pageable) {
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = principal.getUserId();
+
+        return outfitRepository.findAllByUserId(userId, pageable)
+                .map(outfit -> {
+                    List<ClothingItemDto> clothes = clothesService.findAllById(outfit.getItemList());
+                    return new OutfitDto(outfit, clothes);
+                });
     }
 }

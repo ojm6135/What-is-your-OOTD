@@ -48,6 +48,14 @@ public class ClothesServiceImpl implements ClothesService {
         return save.getUserId().equals(userId);
     }
 
+    @Override
+    public List<ClothingItemDto> findAllById(List<Long> itemList) {
+        return clothesRepository.findAllById(itemList)
+                .stream()
+                .map(ClothingItemDto::new)
+                .collect(Collectors.toList());
+    }
+
     @PreAuthorize("#username == authentication.name")
     @Override
     public List<ClothingItemDto> findAllByUsername(@P("username") String username) {
