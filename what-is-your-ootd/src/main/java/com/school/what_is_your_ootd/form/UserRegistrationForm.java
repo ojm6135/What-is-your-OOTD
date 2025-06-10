@@ -12,15 +12,4 @@ public class UserRegistrationForm {
     private String email;
     private char gender;
     private Location location;
-
-    @Override
-    public String toString() {
-        return "UserRegistrationForm{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", gender=" + gender +
-                ", location=" + location +
-                '}';
-    }
 }
