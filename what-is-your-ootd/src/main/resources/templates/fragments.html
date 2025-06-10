@@ -90,28 +90,31 @@
   </table>
 </div>
 
+<!-- 옷차림 정보 출력 -->
+<div th:fragment="print-outfit(outfit)" class="ms-2 mt-2 me-2 mb-2">
+  <p class="text-start d-flex justify-content-between">
+    <span th:text="|🌡 ${outfit.weather.tmp}°C|"></span>
+    <span th:text="|💧 ${outfit.weather.reh}%|"></span>
+    <span th:text="|🌪 ${outfit.weather.wsd}m/s|"></span>
+    <span th:text="|☔ ${outfit.weather.pcp}|"></span>
+    <span th:text="|✨ ${outfit.style.desc}|"></span>
+  </p>
+  <br>
+  <p class="text-start" th:each="item : ${outfit.clothes}">
+          <span th:switch="${item.type.desc}">
+            <span th:case="외투">🧥</span>
+            <span th:case="상의">👕</span>
+            <span th:case="하의">👖</span>
+            <span th:case="신발">👞</span>
+          </span>
+    <span th:text="|${item.type.desc} - ${item.detail} (${item.color})|"></span>
+  </p>
+</div>
+
 <!-- 내 옷차림 -->
 <div th:fragment="outfit-grid(outfit)" class="card" style="width: 100%; height: 300px;">
   <div class="border-1 rounded bg-light" style="width: 100%; height: 100%;">
-    <div class="ms-2 mt-2 me-2 mb-2">
-      <p class="text-start d-flex justify-content-between">
-        <span th:text="|🌡: ${outfit.weather.tmp}°C|"></span>
-        <span th:text="|💧: ${outfit.weather.reh}%|"></span>
-        <span th:text="|🌪: ${outfit.weather.wsd}m/s|"></span>
-        <span th:text="|☔: ${outfit.weather.pcp}|"></span>
-        <span th:text="|✨: ${outfit.style.desc}|"></span>
-      </p>
-      <br>
-      <p class="text-start" th:each="item : ${outfit.clothes}">
-        <span th:switch="${item.type.desc}">
-          <span th:case="외투">🧥</span>
-          <span th:case="상의">👕</span>
-          <span th:case="하의">👖</span>
-          <span th:case="신발">👞</span>
-        </span>
-        <span th:text="|${item.type.desc} - ${item.detail} (${item.color})|"></span>
-      </p>
-    </div>
+    <div th:replace="~{fragments :: print-outfit(${outfit})}"></div>
   </div>
     <div class="d-flex justify-content-between border-top align-bottom">
       <div class="border-end" style="width: 75%;">
