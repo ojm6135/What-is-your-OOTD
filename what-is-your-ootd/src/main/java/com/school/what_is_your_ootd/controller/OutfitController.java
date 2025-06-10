@@ -90,4 +90,11 @@ public class OutfitController {
 
         return "my-outfits";
     }
+
+    @PatchMapping("/users/{username}/outfits/{outfitId}")
+    public String toggleOutfitStatus(@PathVariable(name = "username") String username,
+                                     @PathVariable(name = "outfitId") Long outfitId) {
+        outfitService.toggleOutfitStatus(username, outfitId);
+        return "redirect:/users/" + username + "/outfits";
+    }
 }

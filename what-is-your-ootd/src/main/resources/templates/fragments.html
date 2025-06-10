@@ -118,9 +118,11 @@
   </div>
     <div class="d-flex justify-content-between border-top align-bottom">
       <div class="border-end" style="width: 75%;">
-        <form action="#" class="m-0" >
+        <form th:action="@{/users/{username}/outfits/{outfitId}(username=${#authentication.name}, outfitId=${outfit.id})}"
+              method="post"
+              class="m-0" >
           <input type="hidden" name="_method" value="patch">
-          <button class="btn border-0" style="width: 100%;">
+          <button type="submit" class="btn border-0" style="width: 100%;">
             <img th:if="${outfit.isPublic}" th:src="@{/images/globe_act.svg}" style="width: 25px; height: 25px;">
             <img th:if="${!outfit.isPublic}" th:src="@{/images/globe_deact.svg}" style="width: 25px; height: 25px;">
           </button>

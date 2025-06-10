@@ -127,4 +127,27 @@ public class OutfitServiceImpl implements OutfitService {
                     return new OutfitDto(outfit, clothes);
                 });
     }
+
+    @PreAuthorize("#username == authentication.name")
+    @Override
+    public boolean toggleOutfitStatus(@P("username") String username, Long outfitId) {
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = principal.getUserId();
+        Optional<Outfit> outfitOptional = outfitRepository.findById(outfitId);
+
+        if (outfitOptional.isEmpty()) {
+            return false;
+        }
+
+        Outfit outfit = outfitOptional.get();
+
+        if (!outfit.getUserId().equals(userId)) {
+            return false;
+        }
+
+        outfit.setPublic(!outfit.isPublic());
+        outfitRepository.save(outfit);
+
+        return true;
+    }
 }
