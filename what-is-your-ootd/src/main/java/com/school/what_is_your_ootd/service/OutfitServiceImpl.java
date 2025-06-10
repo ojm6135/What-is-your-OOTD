@@ -150,4 +150,24 @@ public class OutfitServiceImpl implements OutfitService {
 
         return true;
     }
+
+    @PreAuthorize("#username == authentication.name")
+    @Override
+    public boolean deleteOutfit(@P("username") String username, Long outfitId) {
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = principal.getUserId();
+        Optional<Outfit> outfitOptional = outfitRepository.findById(outfitId);
+
+        if (outfitOptional.isEmpty()) {
+            return false;
+        }
+
+        if (!outfitOptional.get()
+                .getUserId().equals(userId)) {
+            return false;
+        }
+
+        outfitRepository.deleteById(outfitId);
+        return true;
+    }
 }

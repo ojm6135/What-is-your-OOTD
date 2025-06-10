@@ -97,4 +97,11 @@ public class OutfitController {
         outfitService.toggleOutfitStatus(username, outfitId);
         return "redirect:/users/" + username + "/outfits";
     }
+
+    @DeleteMapping("/users/{username}/outfits/{outfitId}")
+    public String deleteOutfit(@PathVariable(name = "username") String username,
+                               @PathVariable(name = "outfitId") Long outfitId) {
+        outfitService.deleteOutfit(username, outfitId);
+        return "redirect:/users/" + username + "/outfits";
+    }
 }

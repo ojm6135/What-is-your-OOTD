@@ -12,4 +12,5 @@ public interface OutfitService {
     boolean save(String username, OutfitDto outfitDto);
     Page<OutfitDto> findAllByUserId(String username, Pageable pageable);
     boolean toggleOutfitStatus(String username, Long outfitId);
+    boolean deleteOutfit(String username, Long outfitId);
 }
