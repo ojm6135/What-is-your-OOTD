@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface ClothesService {
     boolean addClothingItem(String username, ClothingItemDto clothingItemDto);
-    List<ClothingItemDto> findAllById(List<Long> itemList);
     List<ClothingItemDto> findAllByUsername(String username);
     List<ClothingItemDto> findAllByUsernameAndSeason(String username,
                                                      boolean forSpring, boolean forSummer,

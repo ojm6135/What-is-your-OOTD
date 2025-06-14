@@ -1,6 +1,7 @@
 package com.school.what_is_your_ootd.domain;
 
 import com.school.what_is_your_ootd.dto.OutfitDto;
+import com.school.what_is_your_ootd.vo.ClothingItemSnapshot;
 import com.school.what_is_your_ootd.vo.Style;
 import com.school.what_is_your_ootd.vo.Weather;
 import jakarta.persistence.*;
@@ -23,9 +24,9 @@ public class Outfit {
     private Long id;
     @Column(name = "user_id", nullable = false)
     private Long userId;
-    @Column(name = "item_id", nullable = false)
+    @Embedded
     @ElementCollection
-    private List<Long> itemList = new ArrayList<>();
+    private List<ClothingItemSnapshot> clothes = new ArrayList<>();
     @Column(name = "weather", nullable = false)
     @Embedded
     private Weather weather;
@@ -37,7 +38,7 @@ public class Outfit {
 
     public Outfit(Long userId, OutfitDto dto) {
         this.userId = userId;
-        this.itemList = dto.getItemList();
+        this.clothes = dto.getClothes();
         this.weather = dto.getWeather();
         this.style = dto.getStyle();
         this.isPublic = dto.isPublic();

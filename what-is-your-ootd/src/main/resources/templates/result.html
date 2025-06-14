@@ -24,7 +24,11 @@
 
             <th:block sec:authorize="isAuthenticated()">
                 <form id="save-form" th:action="@{/users/{username}/outfits(username=${#authentication.name})}" th:object="${outfit}" method="post" >
-                    <input type="hidden" th:each="items : ${outfit.clothes}" th:value="${items.id}" name="itemList">
+                    <div th:each="item, iterStat : ${outfit.clothes}">
+                        <input type="hidden" th:field="*{clothes[__${iterStat.index}__].type}"/>
+                        <input type="hidden" th:field="*{clothes[__${iterStat.index}__].detail}" />
+                        <input type="hidden" th:field="*{clothes[__${iterStat.index}__].color}"/>
+                    </div>
                     <input type="hidden" th:field="*{weather.tmp}">
                     <input type="hidden" th:field="*{weather.pcp}">
                     <input type="hidden" th:field="*{weather.wsd}">

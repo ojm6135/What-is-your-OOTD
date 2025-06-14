@@ -126,19 +126,13 @@ public class OutfitServiceImpl implements OutfitService {
         long userId = principal.getUserId();
 
         return outfitRepository.findAllByUserId(userId, pageable)
-                .map(outfit -> {
-                    List<ClothingItemDto> clothes = clothesService.findAllById(outfit.getItemList());
-                    return new OutfitDto(outfit, clothes);
-                });
+                .map(OutfitDto::new);
     }
 
     @Override
     public Page<OutfitDto> findAllPublicOutfits(Pageable pageable) {
         return outfitRepository.findAllByIsPublicTrue(pageable)
-                .map(outfit -> {
-                    List<ClothingItemDto> clothes = clothesService.findAllById(outfit.getItemList());
-                    return new OutfitDto(outfit, clothes);
-                });
+                .map(OutfitDto::new);
     }
 
     @PreAuthorize("#username == authentication.name")

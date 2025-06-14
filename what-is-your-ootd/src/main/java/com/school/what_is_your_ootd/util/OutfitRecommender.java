@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.school.what_is_your_ootd.dto.ClothingItemDto;
 import com.school.what_is_your_ootd.dto.OutfitDto;
+import com.school.what_is_your_ootd.vo.ClothingItemSnapshot;
 import com.school.what_is_your_ootd.vo.Location;
 import com.school.what_is_your_ootd.vo.Style;
 import com.school.what_is_your_ootd.vo.Weather;
@@ -24,8 +25,8 @@ public class OutfitRecommender {
         }
 
         ObjectMapper om = new ObjectMapper();
-        ClothingItemDto[] clothingItemDtos = om.readValue(response.get(), ClothingItemDto[].class);
-        List<ClothingItemDto> items = Arrays.stream(clothingItemDtos).toList();
+        ClothingItemSnapshot[] snapshots = om.readValue(response.get(), ClothingItemSnapshot[].class);
+        List<ClothingItemSnapshot> items = Arrays.stream(snapshots).toList();
 
         OutfitDto outfitDto = new OutfitDto();
         outfitDto.setClothes(items);
@@ -44,8 +45,8 @@ public class OutfitRecommender {
         }
 
         ObjectMapper om = new ObjectMapper();
-        ClothingItemDto[] clothingItemDtos = om.readValue(response.get(), ClothingItemDto[].class);
-        List<ClothingItemDto> items = Arrays.stream(clothingItemDtos).toList();
+        ClothingItemSnapshot[] snapshots = om.readValue(response.get(), ClothingItemSnapshot[].class);
+        List<ClothingItemSnapshot> items = Arrays.stream(snapshots).toList();
 
         OutfitDto outfitDto = new OutfitDto();
         outfitDto.setClothes(items);
@@ -96,7 +97,7 @@ public class OutfitRecommender {
 
         sb.append("- Return only the JSON array without any additional explanation.\n");
         sb.append("- Important: Do not include any markdown or code block markers such as ```json. Only return raw JSON text.\n");
-        sb.append("- Respond with a JSON array containing the full data of the selected clothing items as they were provided in the input.\n");
+        sb.append("- Respond with a JSON array containing only the **type, detail, and color** fields of the selected clothing items as provided in the input.\n");
         sb.append("- The order of items in the array must be: OUTER, TOP, BOTTOM, SHOES. If any type is missing, maintain the order and skip the missing one.\n");
 
         return sb.toString();

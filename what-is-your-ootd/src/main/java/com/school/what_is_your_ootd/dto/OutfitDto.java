@@ -1,6 +1,7 @@
 package com.school.what_is_your_ootd.dto;
 
 import com.school.what_is_your_ootd.domain.Outfit;
+import com.school.what_is_your_ootd.vo.ClothingItemSnapshot;
 import com.school.what_is_your_ootd.vo.Style;
 import com.school.what_is_your_ootd.vo.Weather;
 import lombok.Getter;
@@ -14,16 +15,14 @@ import java.util.List;
 @NoArgsConstructor
 public class OutfitDto {
     private Long id;
-    private List<ClothingItemDto> clothes;
-    private List<Long> itemList;
+    private List<ClothingItemSnapshot> clothes;
     private Weather weather;
     private Style style;
     private boolean isPublic;
 
-    public OutfitDto(Outfit entity, List<ClothingItemDto> clothes) {
-        this.clothes = clothes;
+    public OutfitDto(Outfit entity) {
+        this.clothes = entity.getClothes();
         this.id = entity.getId();
-        this.itemList = entity.getItemList();
         this.weather = entity.getWeather();
         this.style = entity.getStyle();
         this.isPublic = entity.isPublic();
