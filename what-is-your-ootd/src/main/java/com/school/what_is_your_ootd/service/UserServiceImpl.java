@@ -77,6 +77,10 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
+        if (!Location.validateRange(location)) {
+            return false;
+        }
+
         User user = userOptional.get();
         user.setLocation(location);
         userRepository.save(user);

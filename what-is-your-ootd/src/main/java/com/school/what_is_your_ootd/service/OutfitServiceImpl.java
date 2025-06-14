@@ -47,16 +47,16 @@ public class OutfitServiceImpl implements OutfitService {
             return Optional.empty();
         }
 
-        if (!Location.validateRange(request.getLocation())) {
-            return Optional.empty();
-        }
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         try {
             // 비회원
             if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
                 if (request.getLocation() == null) {
+                    return Optional.empty();
+                }
+
+                if (!Location.validateRange(request.getLocation())) {
                     return Optional.empty();
                 }
 

@@ -10,8 +10,8 @@ public class Location {
     private double longitude;
     // 대한민국
     private static final int LAT_MIN = 33;
-    private static final int LAT_MAX = 39;
-    private static final int LNG_MIN = 124;
+    private static final int LAT_MAX = 38;
+    private static final int LNG_MIN = 125;
     private static final int LNG_MAX = 132;
 
     public static boolean validateRange(Location location) {
@@ -21,13 +21,5 @@ public class Location {
         }
 
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return "Location{" +
-                "latitude=" + latitude +
-                ", longitude=" + longitude +
-                '}';
     }
 }
