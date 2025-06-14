@@ -34,7 +34,7 @@
 </th:block>
 
 <!-- 페이지 -->
-<div class="d-flex justify-content-center mb-5">
+<div th:if="${outfitPage.totalPages > 0}" class="d-flex justify-content-center mb-5">
     <ul class="pagination">
         <!-- 이전 -->
         <li class="page-item" th:if="${prevPageNumber != 0}">
@@ -46,7 +46,6 @@
 
         <!-- 각 페이지 -->
         <li class="page-item"
-            th:if="${outfitPage.totalPages > 0}"
             th:each="pageNumber : ${pageNumbers}">
             <a th:href="@{/users/{username}/outfits(username=${#authentication.name}, page=${pageNumber})}"
                th:text=${pageNumber}
