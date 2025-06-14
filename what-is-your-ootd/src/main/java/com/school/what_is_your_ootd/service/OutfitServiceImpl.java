@@ -47,6 +47,10 @@ public class OutfitServiceImpl implements OutfitService {
             return Optional.empty();
         }
 
+        if (!Location.validateRange(request.getLocation())) {
+            return Optional.empty();
+        }
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         try {

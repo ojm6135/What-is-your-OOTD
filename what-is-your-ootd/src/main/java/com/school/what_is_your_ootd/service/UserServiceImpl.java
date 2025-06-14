@@ -40,6 +40,10 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
+        if (!Location.validateRange(form.getLocation())) {
+            return false;
+        }
+
         User user = new User(
                 form.getUsername(),
                 passwordEncoder.encode(form.getPassword()),
