@@ -11,6 +11,7 @@ public interface OutfitService {
     Optional<OutfitDto> recommendOutfit(RecommendRequest request);
     boolean save(String username, OutfitDto outfitDto);
     Page<OutfitDto> findAllByUserId(String username, Pageable pageable);
+    Page<OutfitDto> findAllPublicOutfits(Pageable pageable);
     boolean toggleOutfitStatus(String username, Long outfitId);
     boolean deleteOutfit(String username, Long outfitId);
 }

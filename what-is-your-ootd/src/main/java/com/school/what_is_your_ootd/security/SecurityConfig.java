@@ -21,6 +21,7 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/users/sign-up").permitAll()
                         .requestMatchers("/outfits/recommend").permitAll()
+                        .requestMatchers("/outfits/browse").permitAll()
                         .requestMatchers("/images/**").permitAll()
                         .anyRequest().authenticated()
                 );

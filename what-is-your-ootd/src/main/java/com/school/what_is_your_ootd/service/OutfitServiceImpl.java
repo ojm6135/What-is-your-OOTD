@@ -128,6 +128,15 @@ public class OutfitServiceImpl implements OutfitService {
                 });
     }
 
+    @Override
+    public Page<OutfitDto> findAllPublicOutfits(Pageable pageable) {
+        return outfitRepository.findAllByIsPublicTrue(pageable)
+                .map(outfit -> {
+                    List<ClothingItemDto> clothes = clothesService.findAllById(outfit.getItemList());
+                    return new OutfitDto(outfit, clothes);
+                });
+    }
+
     @PreAuthorize("#username == authentication.name")
     @Override
     public boolean toggleOutfitStatus(@P("username") String username, Long outfitId) {
