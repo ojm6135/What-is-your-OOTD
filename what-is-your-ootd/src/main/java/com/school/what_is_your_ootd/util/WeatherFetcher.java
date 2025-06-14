@@ -24,7 +24,7 @@ public class WeatherFetcher {
     private static final Dotenv dotenv = Dotenv.load();
     private static final String API_URL = dotenv.get("WEATHER_API_URL");
     private static final String API_KEY = dotenv.get("WEATHER_API_KEY");
-    private static final String EXCEL_PATH = dotenv.get("EXCEL_LOCATION_PATH");
+    private static final String COORDINATE_MAPPING_EXCEL_PATH = dotenv.get("COORDINATE_MAPPING_EXCEL_PATH");
     private static final int LAT_COL = 0;
     private static final int LNG_COL = 1;
     private static final int X_COL = 2;
@@ -140,7 +140,7 @@ public class WeatherFetcher {
     // 일치하는 값이 없는 경우, 위도, 경도의 가장 근사한 값에 대한 x, y 리턴
     private static int[] getXY(double latitude, double longitude) throws IOException {
         ZipSecureFile.setMinInflateRatio(0.005);
-        ClassPathResource resource = new ClassPathResource(EXCEL_PATH);
+        ClassPathResource resource = new ClassPathResource(COORDINATE_MAPPING_EXCEL_PATH);
         InputStream inputStream = resource.getInputStream();
         XSSFWorkbook sheets = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = sheets.getSheetAt(0);
