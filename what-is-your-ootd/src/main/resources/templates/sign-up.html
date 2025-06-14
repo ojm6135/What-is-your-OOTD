@@ -56,13 +56,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 <script>
-    var initLat = 36.5662;
-    var initLng = 128.7153;
+    var initLat = 36.58900225789591;
+    var initLng = 128.02707349085748;
     var lat = document.getElementById('latitude');
     var lng = document.getElementById('longitude');
-
-    lat.value = initLat;
-    lng.value = initLng;
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
@@ -73,10 +70,7 @@
     var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
     // 지도를 클릭한 위치에 표출할 마커입니다
-    var marker = new kakao.maps.Marker({
-        // 지도 중심좌표에 마커를 생성합니다
-        position: map.getCenter()
-    });
+    var marker = new kakao.maps.Marker();
     // 지도에 마커를 표시합니다
     marker.setMap(map);
 
